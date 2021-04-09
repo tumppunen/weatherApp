@@ -1,37 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import WeatherForecastContainer from './components/WeatherForecastContainer';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles({
+  headerBar: {
+    backgroundColor: '#FFFFFF',
+    height: '50pt',
+    borderBottom: '1px solid #E6E6E6',
+    textAlign: 'center'
+  },
+  appHeader: {
+    color: '#262626',
+    fontSize: '23pt',
+    position: 'relative',
+    top: 15
+  }
+});
 
 function App() {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+  const apiKey = 'enterApiKeyHere'
+
+  const [weatherData, setWeatherData] = useState(null)
+  const [cityChosen, setCityChosen] = useState('all')
+
+  const classes = useStyles();
+
+  const cities = [
+    { cityName: 'Tampere', cityId: '634964' },
+    { cityName: 'Jyväskylä', cityId: '655195' },
+    { cityName: 'Kuopio', cityId: '650225' },
+    { cityName: 'Helsinki', cityId: '658225' }
+  ]
+
+  useEffect(async () => {
+    const data = cities.map(async (city) => {
+      const threeHourWeatherRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?id=${city.cityId}&appid=${apiKey}`)
+      const currentWeatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${city.cityId}&appid=${apiKey}`)
+      const threeHourWeatherData = await threeHourWeatherRes.json()
+      const currentWeatherData = await currentWeatherRes.json()
+      return {
+        cityId: city.cityId,
+        currentWeatherData,
+        threeHourWeatherData
+      }
+    })
+    const weatherData = await Promise.all(data)
+    console.log(weatherData)
+    setWeatherData(weatherData)
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+    <div>
+      <div className={classes.headerBar}>
+        <div className={classes.appHeader}>
+          Säätutka
+        </div>
+      </div>
+      {weatherData && (
+        <WeatherForecastContainer weatherData={weatherData} cityChosen={cityChosen} cities={cities} setCityChosen={setCityChosen} />
+      )}
     </div>
   );
 }

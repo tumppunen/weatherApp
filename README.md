@@ -1,8 +1,12 @@
-# New Project
+## Before starting
+Make sure you have open weather map api key you can get it here https://openweathermap.com
+Insert the your own api key into the api key variable in app.jsx
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
 
 ## Available Scripts
+
+### npm install
+Installs dependencies.
 
 ### npm start
 
