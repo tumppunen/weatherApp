@@ -22,7 +22,6 @@ function App() {
   const apiKey = 'enterApiKeyHere'
 
   const [weatherData, setWeatherData] = useState(null)
-  const [cityChosen, setCityChosen] = useState('all')
 
   const classes = useStyles();
 
@@ -59,7 +58,7 @@ function App() {
         </div>
       </div>
       {weatherData && (
-        <WeatherForecastContainer weatherData={weatherData} cityChosen={cityChosen} cities={cities} setCityChosen={setCityChosen} />
+        <WeatherForecastContainer weatherData={weatherData} cities={cities} />
       )}
     </div>
   );
