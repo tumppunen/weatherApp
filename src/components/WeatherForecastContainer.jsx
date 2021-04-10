@@ -1,37 +1,19 @@
-import React,  { useState } from 'react';
+import React, { useState } from 'react';
 import MainWeatherCard from './MainWeatherCard'
 import SubWeatherCard from './SubWeatherCard'
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-    SubWeatherCardContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-between'
-    },
-    weatherForecastContainer: {
-        padding: '10pt'
-    },
-    dropDown: {
-        width: '100%',
-        height: '30pt',
-        // backgroundColor: '#FFFFFF',
-        // border: '1pt solid #E6E6E6',
-        // borderRadius: '5pt',
-        // padding: '5pt',
-        // fontSize: '13pt',
-        // color: '#262626',
-        // appearance: 'none'
-    }
-});
 
-const WeatherForecastContainer = (props) => {
+const WeatherForecastContainer = ({ allWeatherData, cities }) => {
     const [cityChosen, setCityChosen] = useState('all')
 
     const classes = useStyles();
-    
-    const weatherData = cityChosen !== 'all' ? props.weatherData.filter(data => data.cityId == cityChosen) : props.weatherData
+
+    const weatherData = cityChosen !== 'all' ? allWeatherData.filter(data => data.cityId == cityChosen) : allWeatherData
+
+    const convertTemp = (temp) => {
+        return (temp - 273.15).toFixed(0)
+    }
 
     const getPrecipitation = (snowOrRain) => {
         if (snowOrRain) {
@@ -48,15 +30,26 @@ const WeatherForecastContainer = (props) => {
             <div className={classes.weatherForecastContainer}>
                 <select className={classes.dropDown} id="cities" name="cities" onChange={(e) => setCityChosen(e.target.value)}>
                     <option value="all">Kaikki kaupungit</option>
-                    {props.cities.map(city => <option key={city.cityId} value={city.cityId}>{city.cityName}</option>)}
+                    {cities.map(city => 
+                    <option key={city.cityId} value={city.cityId}>{city.cityName}</option>)}
                 </select>
 
                 {weatherData.map(data =>
                     <div key={data.cityId}>
-                        <MainWeatherCard weatherData={data.currentWeatherData} getPrecipitation={getPrecipitation} />
+                        <MainWeatherCard
+                            weatherData={data.currentWeatherData}
+                            getPrecipitation={getPrecipitation}
+                            convertTemp={convertTemp}
+                            cityName={data.cityName}
+                        />
                         <div className={classes.SubWeatherCardContainer}>
                             {data.threeHourWeatherData.list.slice(1, 6).map(threeHourData =>
-                                <SubWeatherCard key={threeHourData.dt} weatherData={threeHourData} getPrecipitation={getPrecipitation} />
+                                <SubWeatherCard
+                                    key={threeHourData.dt}
+                                    weatherData={threeHourData}
+                                    getPrecipitation={getPrecipitation}
+                                    convertTemp={convertTemp}
+                                />
                             )}
                         </div>
                     </div>
@@ -68,3 +61,21 @@ const WeatherForecastContainer = (props) => {
 }
 
 export default WeatherForecastContainer;
+
+const useStyles = makeStyles({
+    SubWeatherCardContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        justifyContent: 'space-between'
+    },
+    weatherForecastContainer: {
+        padding: '10pt'
+    },
+    dropDown: {
+        width: '100%',
+        height: '30pt',
+        fontSize: '13pt',
+        color: '#262626'
+    }
+});

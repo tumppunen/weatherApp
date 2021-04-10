@@ -1,6 +1,66 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+
+const MainWeatherCard = ({ weatherData, getPrecipitation, convertTemp, cityName }) => {
+    const classes = useStyles();
+
+    const getEndingForDate = (day) => {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
+        }
+    }
+
+    const date = new Date()
+
+    return (
+        <div className={classes.root}>
+            <div className={classes.content}>
+                <div>
+                    <div className={classes.primaryText19pt}>
+                        {cityName}
+                    </div>
+                    <div className={classes.secondaryText13pt}>
+                        {weatherData.weather[0].description}
+                    </div>
+                </div>
+                <div className={classes.tempData}>
+                    <img className={classes.icon} src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} />
+                    <span className={classes.primaryText26pt}>{convertTemp(weatherData.main.temp)} °C</span>
+                </div>
+            </div>
+            <div className={classes.content}>
+                <div className={classes.timeData}>
+                    <div className={classes.primaryText15pt}>
+                        {date.toLocaleString('default', { month: 'short', day: 'numeric' })}{getEndingForDate(new Date().getDate)}
+                    </div>
+                    <div className={classes.secondaryText13pt}>
+                        {date.getHours()}:{date.getMinutes() < 10 ? '0' : '' + date.getMinutes()}
+                    </div>
+                </div>
+                <div className={classes.secondaryData}>
+                    <div className={classes.secondaryText13pt}>
+                        Wind: {weatherData.wind.speed} m/s
+                    </div>
+                    <div className={classes.secondaryText13pt}>
+                        Humidity: {weatherData.main.humidity} %
+                    </div>
+                    <div className={classes.secondaryText13pt}>
+                        Prepicitation (3h): {getPrecipitation(weatherData.rain || weatherData.snow)} mm
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    );
+}
+
+export default MainWeatherCard;
+
 const useStyles = makeStyles({
     root: {
         marginTop: '15pt',
@@ -55,60 +115,3 @@ const useStyles = makeStyles({
     },
 
 });
-
-const getEndingForDate = (day) => {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-        case 1: return "st";
-        case 2: return "nd";
-        case 3: return "rd";
-        default: return "th";
-    }
-}
-
-
-const MainWeatherCard = (props) => {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            <div className={classes.content}>
-                <div>
-                    <div className={classes.primaryText19pt}>
-                        {props.weatherData.name}
-                    </div>
-                    <div className={classes.secondaryText13pt}>
-                        {props.weatherData.weather[0].description}
-                    </div>
-                </div>
-                <div className={classes.tempData}>
-                    <img className={classes.icon} src={`http://openweathermap.org/img/wn/${props.weatherData.weather[0].icon}.png`} />
-                    <span className={classes.primaryText26pt}>{(props.weatherData.main.temp - 273.15).toFixed(0)} °C</span>
-                </div>
-            </div>
-            <div className={classes.content}>
-                <div className={classes.timeData}>
-                    <div className={classes.primaryText15pt}>
-                        {new Date().toLocaleString('default', { month: 'short', day: 'numeric' })}{getEndingForDate(new Date().getDate)}
-                    </div>
-                    <div className={classes.secondaryText13pt}>
-                        {new Date().getHours()}:{new Date().getMinutes()}
-                    </div>
-                </div>
-                <div className={classes.secondaryData}>
-                    <div className={classes.secondaryText13pt}>
-                        Wind: {props.weatherData.wind.speed} m/s
-                    </div>
-                    <div className={classes.secondaryText13pt}>
-                        Humidity: {props.weatherData.main.humidity} %
-                    </div>
-                    <div className={classes.secondaryText13pt}>
-                        Prepicitation (3h): {props.getPrecipitation(props.weatherData.rain || props.weatherData.snow)} mm
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    );
-}
-
-export default MainWeatherCard;

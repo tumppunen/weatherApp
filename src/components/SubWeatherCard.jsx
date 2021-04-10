@@ -1,6 +1,38 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+
+const SubWeatherCard = ({ weatherData, getPrecipitation, convertTemp }) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.root}>
+            <div className={classes.secondaryText13pt}>
+                {new Date(weatherData.dt_txt).getHours()}:00
+            </div>
+            <div>
+                <img className={classes.icon} src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} />
+            </div>
+            <div className={classes.primaryText15pt}>
+                {convertTemp(weatherData.main.temp)}°C
+            </div>
+            <div className={classes.secondaryData}>
+                <div className={classes.secondaryText10pt}>
+                    {weatherData.wind.speed} m/s
+                    </div>
+                <div className={classes.secondaryText10pt}>
+                    {weatherData.main.humidity} %
+                    </div>
+                <div className={classes.secondaryText10pt}>
+                    {getPrecipitation(weatherData.rain || weatherData.snow)} mm
+                    </div>
+            </div>
+        </div>
+    )
+}
+
+export default SubWeatherCard;
+
 const useStyles = makeStyles({
     root: {
         maxWidth: '100pt',
@@ -36,36 +68,3 @@ const useStyles = makeStyles({
         bottom: 0
     }
 });
-
-
-
-const SubWeatherCard = (props) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <div className={classes.secondaryText13pt}>
-                {new Date(props.weatherData.dt_txt).getHours()}:00
-            </div>
-            <div>
-                <img className={classes.icon} src={`http://openweathermap.org/img/wn/${props.weatherData.weather[0].icon}.png`} />
-            </div>
-            <div className={classes.primaryText15pt}>
-                {(props.weatherData.main.temp - 273.15).toFixed(0)}°C
-            </div>
-            <div className={classes.secondaryData}>
-                <div className={classes.secondaryText10pt}>
-                    {props.weatherData.wind.speed} m/s
-                    </div>
-                <div className={classes.secondaryText10pt}>
-                    {props.weatherData.main.humidity} %
-                    </div>
-                <div className={classes.secondaryText10pt}>
-                    {props.getPrecipitation(props.weatherData.rain || props.weatherData.snow)} mm
-                    </div>
-            </div>
-        </div>
-    )
-}
-
-export default SubWeatherCard;
