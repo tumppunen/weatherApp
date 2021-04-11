@@ -1,7 +1,7 @@
 ## Before starting
-Make sure you have open weather map api key you can get it here https://openweathermap.com
-Insert the your own api key into the api key variable /src/config.js
 
+Make sure you have open weather map api key, you can get it here https://openweathermap.com
+Insert your own api key into the api key variable /src/config.js
 
 ## Available Scripts
 
