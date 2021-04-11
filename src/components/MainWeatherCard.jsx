@@ -54,7 +54,6 @@ const MainWeatherCard = ({ weatherData, getPrecipitation, convertTemp, cityName 
                     </p>
                 </div>
             </div>
-
         </article>
     );
 }

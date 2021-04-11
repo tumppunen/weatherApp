@@ -26,7 +26,7 @@ const WeatherForecastContainer = ({ allWeatherData, cities }) => {
         return 0
     }
     return (
-        <main className={classes.weatherForecastContainer}>
+        <div className={classes.weatherForecastContainer}>
             <select className={classes.dropDown} id="cities" name="cities" onChange={(e) => setCityChosen(e.target.value)}>
                 <option value="all">Kaikki kaupungit</option>
                 {cities.map(city =>
@@ -53,7 +53,7 @@ const WeatherForecastContainer = ({ allWeatherData, cities }) => {
                     </div>
                 </section>
             )}
-        </main>
+        </div>
     );
 }
 
