@@ -5,3 +5,10 @@ body {
   background-color: #F8F9FA;
   margin-bottom: 30pt;
 }
+
+h1, h2, p {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  border: 0
+}

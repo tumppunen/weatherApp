@@ -6,28 +6,28 @@ const SubWeatherCard = ({ weatherData, getPrecipitation, convertTemp }) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <div className={classes.secondaryText13pt}>
+        <article className={classes.root}>
+            <p className={classes.secondaryText13pt}>
                 {new Date(weatherData.dt_txt).getHours()}:00
-            </div>
+            </p>
             <div>
                 <img className={classes.icon} src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} />
             </div>
-            <div className={classes.primaryText15pt}>
+            <p className={classes.primaryText15pt}>
                 {convertTemp(weatherData.main.temp)}°C
-            </div>
+            </p>
             <div className={classes.secondaryData}>
-                <div className={classes.secondaryText10pt}>
+                <p className={classes.secondaryText10pt}>
                     {weatherData.wind.speed} m/s
-                    </div>
-                <div className={classes.secondaryText10pt}>
+                </p>
+                <p className={classes.secondaryText10pt}>
                     {weatherData.main.humidity} %
-                    </div>
-                <div className={classes.secondaryText10pt}>
+                </p>
+                <p className={classes.secondaryText10pt}>
                     {getPrecipitation(weatherData.rain || weatherData.snow)} mm
-                    </div>
+                </p>
             </div>
-        </div>
+        </article>
     )
 }
 

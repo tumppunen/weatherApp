@@ -26,37 +26,34 @@ const WeatherForecastContainer = ({ allWeatherData, cities }) => {
         return 0
     }
     return (
-        <div>
-            <div className={classes.weatherForecastContainer}>
-                <select className={classes.dropDown} id="cities" name="cities" onChange={(e) => setCityChosen(e.target.value)}>
-                    <option value="all">Kaikki kaupungit</option>
-                    {cities.map(city => 
+        <main className={classes.weatherForecastContainer}>
+            <select className={classes.dropDown} id="cities" name="cities" onChange={(e) => setCityChosen(e.target.value)}>
+                <option value="all">Kaikki kaupungit</option>
+                {cities.map(city =>
                     <option key={city.cityId} value={city.cityId}>{city.cityName}</option>)}
-                </select>
+            </select>
 
-                {weatherData.map(data =>
-                    <div key={data.cityId}>
-                        <MainWeatherCard
-                            weatherData={data.currentWeatherData}
-                            getPrecipitation={getPrecipitation}
-                            convertTemp={convertTemp}
-                            cityName={data.cityName}
-                        />
-                        <div className={classes.SubWeatherCardContainer}>
-                            {data.threeHourWeatherData.list.slice(1, 6).map(threeHourData =>
-                                <SubWeatherCard
-                                    key={threeHourData.dt}
-                                    weatherData={threeHourData}
-                                    getPrecipitation={getPrecipitation}
-                                    convertTemp={convertTemp}
-                                />
-                            )}
-                        </div>
+            {weatherData.map(data =>
+                <section key={data.cityId}>
+                    <MainWeatherCard
+                        weatherData={data.currentWeatherData}
+                        getPrecipitation={getPrecipitation}
+                        convertTemp={convertTemp}
+                        cityName={data.cityName}
+                    />
+                    <div className={classes.SubWeatherCardContainer}>
+                        {data.threeHourWeatherData.list.slice(1, 6).map(threeHourData =>
+                            <SubWeatherCard
+                                key={threeHourData.dt}
+                                weatherData={threeHourData}
+                                getPrecipitation={getPrecipitation}
+                                convertTemp={convertTemp}
+                            />
+                        )}
                     </div>
-                )}
-
-            </div>
-        </div>
+                </section>
+            )}
+        </main>
     );
 }
 

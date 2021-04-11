@@ -18,15 +18,15 @@ const MainWeatherCard = ({ weatherData, getPrecipitation, convertTemp, cityName 
     const date = new Date()
 
     return (
-        <div className={classes.root}>
+        <article className={classes.root}>
             <div className={classes.content}>
                 <div>
-                    <div className={classes.primaryText19pt}>
+                    <h2 className={classes.primaryText19pt}>
                         {cityName}
-                    </div>
-                    <div className={classes.secondaryText13pt}>
+                    </h2>
+                    <p className={classes.secondaryText13pt}>
                         {weatherData.weather[0].description}
-                    </div>
+                    </p>
                 </div>
                 <div className={classes.tempData}>
                     <img className={classes.icon} src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} />
@@ -35,27 +35,27 @@ const MainWeatherCard = ({ weatherData, getPrecipitation, convertTemp, cityName 
             </div>
             <div className={classes.content}>
                 <div className={classes.timeData}>
-                    <div className={classes.primaryText15pt}>
-                        {date.toLocaleString('default', { month: 'short', day: 'numeric' })}{getEndingForDate(new Date().getDate)}
-                    </div>
-                    <div className={classes.secondaryText13pt}>
+                    <p className={classes.primaryText15pt}>
+                        {date.toLocaleString('en-EN', { month: 'short', day: 'numeric' })}{getEndingForDate(date.getDate)}
+                    </p>
+                    <p className={classes.secondaryText13pt}>
                         {date.getHours()}:{date.getMinutes() < 10 ? '0' : '' + date.getMinutes()}
-                    </div>
+                    </p>
                 </div>
                 <div className={classes.secondaryData}>
-                    <div className={classes.secondaryText13pt}>
+                    <p className={classes.secondaryText13pt}>
                         Wind: {weatherData.wind.speed} m/s
-                    </div>
-                    <div className={classes.secondaryText13pt}>
+                    </p>
+                    <p className={classes.secondaryText13pt}>
                         Humidity: {weatherData.main.humidity} %
-                    </div>
-                    <div className={classes.secondaryText13pt}>
+                    </p>
+                    <p className={classes.secondaryText13pt}>
                         Prepicitation (3h): {getPrecipitation(weatherData.rain || weatherData.snow)} mm
-                    </div>
+                    </p>
                 </div>
             </div>
 
-        </div>
+        </article>
     );
 }
 
@@ -85,7 +85,7 @@ const useStyles = makeStyles({
     },
     primaryText19pt: {
         fontSize: '19pt',
-        color: '#262626'
+        color: '#262626',
     },
     primaryText15pt: {
         fontSize: '15pt',

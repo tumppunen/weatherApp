@@ -15,20 +15,20 @@ function App() {
   const classes = useStyles();
 
   useEffect(() => {
-    (async function fetchData() {
-        const weatherData = await getWeatherData(cities, apiKey)
-        console.log(weatherData)
-        setWeatherData(weatherData)
+    (async () => {
+      const weatherData = await getWeatherData(cities, apiKey)
+      console.log(weatherData)
+      setWeatherData(weatherData)
     })()
   }, []);
 
   return (
     <div>
-      <div className={classes.headerBar}>
-        <div className={classes.appHeader}>
+      <header className={classes.headerBar}>
+        <h1 className={classes.appHeader}>
           Säätutka
-        </div>
-      </div>
+        </h1>
+      </header>
       {error && error}
       {weatherData && (
         <WeatherForecastContainer allWeatherData={weatherData} cities={cities} />
